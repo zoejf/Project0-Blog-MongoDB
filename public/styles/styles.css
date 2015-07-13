@@ -1,0 +1,74 @@
+.container {
+    position: relative;
+    overflow: hidden;
+}
+
+.jumbotron {
+	background-image: url("http://i.imgur.com/BXkJZF3.gif");
+	background-size: cover;
+}
+
+.jumbotron p {
+	color: #298499;;
+}
+.jumbotron h1 {
+	color: #592848;
+	font-family: 'Covered By Your Grace', cursive;
+	font-weight: 400;
+	font-size: 80;
+}
+
+.edit-pencil {
+  color: #aaaaaa;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.update-note {
+	text-align: center;
+}
+
+
+.panel.note {
+	background-image: url("http://i.imgur.com/BXkJZF3.gif");
+	background-size: cover;
+	text-align: center;
+}
+
+.panel.edit {
+	text-align: center;
+	background-color: gray; 
+}
+
+h3 {
+	color: #298499;
+	font-family: 'Covered By Your Grace', cursive;
+	font-weight: 400;
+	font-size: 50;
+}
+
+p {
+	color: #592848;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 17;
+}
+
+.display {
+	display: none;
+}
+
+#footer {
+	background-color: #eee;
+	text-align: center;
+	border-radius: 5px;
+}
+
+#background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    opacity: .2;
+
+}
