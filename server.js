@@ -67,49 +67,32 @@ app.use(express.static(__dirname + '/public'));
 		});
 	});
 
-	//
-
-//API ROUTES
-
-	//respond to $.ajax put request to edit existing note
+	//respond to $.put request from client
+	//update a post document in db
 	app.put('/api/posts/:id', function (req, res) {
-		// set the value of the id
-		var targetId = parseInt(req.params.id);
+		//set the value of the desired id
+		var targetId = req.params.id;
+		//find correct post in the db by the id
+		Post.findOne({_id: targetId}, function (err, foundPost) {
+			//update the post's title and content
+			foundPost.title = req.body.title,
+			foundPost.content = req.body.content;
 
-		// find item in `posts` array matching the id and set variable
-		var foundPost = _.findWhere(posts, {id: targetId});
-
-		// update the note's title 
-		foundPost.title = req.body.title;
-
-		// update the note's content
-		foundPost.content = req.body.content;
-
-		console.log(foundPost);
-		// send back edited object
-		res.json(foundPost);
+			foundPost.save (function (err, savedPost) {
+				res.json(savedPost);
+			});
+		});
 	});
 
-	//respond to $.ajax delete request to delete a specific note
+	//respond to $.delete request from client
+	//delete a post document from the db
 	app.delete('/api/posts/:id', function (req, res) {
-	  console.log(posts);
-	  // set the value of the id and find it in 'posts' array
-	  var targetId = parseInt(req.params.id);
-	  console.log(targetId);
-	  var foundPost = _.findWhere(posts, {id: targetId});
-	  console.log('foundPost 1:' + foundPost);
-
-	  // get the index value of the found post
-	  var index = posts.indexOf(foundPost);
-	  console.log("index: " + index);
-	  
-	  // remove the item at that index, only remove 1 item
-	  posts.splice(index, 1);
-	  console.log(posts);
-	  
-	  // send back deleted object
-	  console.log('foundPost2: ' + foundPost);
-	  res.json(foundPost);
+		//set the value of the desired id
+		var targetId = req.params.id;
+		//find the correct post in the db and remove it
+		Post.findOneAndRemove({_id: targetId}, function (err, deletedPost) {
+			res.json(deletedPost);
+		});
 	});
 
 
