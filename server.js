@@ -22,18 +22,6 @@ app.use(express.static(__dirname + '/public'));
 	  res.sendFile(__dirname + '/views/index.html');
 	});
 
-	//route to display all 'posts' data - in JSON 
-	// app.get('/posts', function (req, res) {
-	// 	res.json(posts);
-	// });
-	//route to display data for one post - in JSON
-	// app.get('/posts/:id', function (req, res) {
-	// 	var targetId = parseInt(req.params.id);
-	// 	var foundPost = _.findWhere(posts, {id: targetId});
-	// 	console.log(foundPost);
-	// 	res.json(foundPost);
-	// });
-
 //MONGO DB ROUTES
 	//respond to $.get request from client
 	//get all phrases from database using .find function

@@ -36,102 +36,103 @@
 	  </div>
 	</div>
 	
-
-<div class="row form-section display">
-	<div class="panel panel-default col-md-6 col-md-offset-3">
-		<div class="panel-body">
-				<form id="new_post_form">
-				  <div class="form-group">
-				    <label for="postTitle">Title</label>
-				    <input input class="form-control" id="postTitle" placeholder="Your note's topic or title" autofocus>
-				  </div>
-				  <div class="form-group">
-				    <label for="postContent">Post</label>
-				    <textarea input class="form-control" rows="3" id="postContent" placeholder="What is your message?" autofocus> </textarea>
-				  </div>
-				  <button type="submit" class="btn btn-info pull-right">Submit</button>
-				</form>
+	<div class="row form-section display">
+		<div class="panel panel-default col-md-6 col-md-offset-3">
+			<div class="panel-body">
+					<form id="new_post_form">
+					  <div class="form-group">
+					    <label for="postTitle">Title</label>
+					    <input input class="form-control" id="postTitle" placeholder="Your note's topic or title" autofocus>
+					  </div>
+					  <div class="form-group">
+					    <label for="postContent">Post</label>
+					    <textarea input class="form-control" rows="3" id="postContent" placeholder="What is your message?" autofocus> </textarea>
+					  </div>
+					  <button type="submit" class="btn btn-info pull-right">Submit</button>
+					</form>
+			</div>
 		</div>
 	</div>
-</div>
-<br>
-<br>
-<br>
+	<br>
+	<br>
+	<br>
 
-<div id="posts-section">
+	<!-- welcome note -->
+	<!-- <div class="row">
+		<div class="panel panel-default col-md-10 col-md-offset-1">
+		  <div class="panel-body">
+		    <h3>Welcome to Kudos!</h3>
+		    <p>Read and contribute anonymous stories about meaningful connections, random acts of kindess, and other notes. The world has enough rants, complaints, and criticism. Our goal is to promote positivity. </p> -->
 
-	<!-- underscore template to create new notes -->
-	<script type="text/template" id="post-template">
-	<div class="postBox note" id="note-<%= _id %>" data-id="<%= _id %>">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="panel note panel-default">
-				  <div class="panel-body">
-				  		
-				  		<!-- delete button -->
-				  		   <button class="close pull-right delete-note" aria-label="Close">
-				  		     <span aria-hidden="true">&nbsp;&times;</span>
-				  		   </button>
-				  		 &nbsp;
+		   <!--  this text will disappear once there is an item in the db -->
+	<!-- 	    <p id="welcome" class="display">There are no posts yet. Click the button above and be the first to submit a note! 
+		    	<br>
+		    (Hint: your note's format will look just like this)</p>
+	-->
+		  </div>
+		</div>
+	</div>
 
-				  		<!-- edit link (pencil icon) to toggle form -->
-				        <a class="edit-pencil" data-toggle="collapse" data-target="#update-<%= _id %>">
-				          <span class="glyphicon glyphicon-pencil edit pull-right"></span>
-				        </a>
-				        &nbsp;
-	
+	<div id="posts-section">
 
-				    <div class="col-sm-8 col-sm-offset-2">
-					   <h3><%=title%></h3>
-					   <br>
-					   <p><%=content%></p>
-					 </div>
-				  </div>
+		<!-- underscore template to create new notes -->
+		<script type="text/template" id="post-template">
+		<div class="postBox note" id="note-<%= _id %>" data-id="<%= _id %>">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="panel note panel-default">
+					  <div class="panel-body">
+					  		
+					  		<!-- delete button -->
+					  		   <button class="close pull-right delete-note" aria-label="Close">
+					  		     <span aria-hidden="true">&nbsp;&times;</span>
+					  		   </button>
+					  		 &nbsp;
+
+					  		<!-- edit link (pencil icon) to toggle form -->
+					        <a class="edit-pencil" data-toggle="collapse" data-target="#update-<%= _id %>">
+					          <span class="glyphicon glyphicon-pencil edit pull-right"></span>
+					        </a>
+					        &nbsp;
+		
+
+					    <div class="col-sm-8 col-sm-offset-2">
+						   <h3><%=title%></h3>
+						   <br>
+						   <p><%=content%></p>
+						 </div>
+					  </div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-	  <!-- form to update each note -->
-	  <div class="row collapse" id="update-<%= _id %>">
-	    <div class="col-md-6 col-md-offset-3 panel edit panel-default">
-	  	  <div class="panel-body">
-	        <br>
-	        <form class="form-horizontal update-note" >
-		        <div class="form-group">
-		           <label for="postTitle">Title</label>
-			       <input type="text" class="form-control updated-title" value="<%= title %>" placeholder="Edited title" autofocus>
-			    </div>
-	          <br>
-		        <div class="form-group">
-		           <label for="postContent">Post</label>
-		           <input type="text" class="form-control updated-content" value="<%= content %>" placeholder="Edited note">
-		        </div>
-	          <br>
-	          <input type="submit" class="btn btn-info pull-right" value="Update note">
-	        </form>
-	      </div>
-	    </div>
-	  </div>
-	</script>
-		<!-- end of template -->
-</div> 
+		  <!-- form to update each note -->
+		  <div class="row collapse" id="update-<%= _id %>">
+		    <div class="col-md-6 col-md-offset-3 panel edit panel-default">
+		  	  <div class="panel-body">
+		        <br>
+		        <form class="form-horizontal update-note" >
+			        <div class="form-group">
+			           <label for="postTitle">Title</label>
+				       <input type="text" class="form-control updated-title" value="<%= title %>" placeholder="Edited title" autofocus>
+				    </div>
+		          <br>
+			        <div class="form-group">
+			           <label for="postContent">Post</label>
+			           <input type="text" class="form-control updated-content" value="<%= content %>" placeholder="Edited note">
+			        </div>
+		          <br>
+		          <input type="submit" class="btn btn-info pull-right" value="Update note">
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+		</script>
 
+  	<!-- end of posts section -->
+	</div> 
 
-		<!-- welcome note when no posts are visible  -->
-		<div class="row welcome display">
-			<div class="panel panel-default col-md-10 col-md-offset-1">
-			  <div class="panel-body">
-			    <h3>Welcome to Kudos!</h3>
-			    <p>There are no posts yet. Click the button above and be the first to submit a note! 
-			    	<br>
-			    	(Hint: your note's format will look just like this, but maybe longer)
-			    </p>
-			  </div>
-			</div>
-		</div>
-
-
- <!-- end of posts section -->
+<!-- end of container  -->
 </div>
 	 
 	 	<!-- jquery cdn -->
