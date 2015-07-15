@@ -26,6 +26,7 @@ app.use(express.static(__dirname + '/public'));
 	});
 
 //MONGO DB ROUTES -- Relationship Refactoring
+
 	//respond to $.get request from client
 	//get all phrases from database using .find function
 	app.get('/api/posts', function (req, res) {
@@ -35,12 +36,15 @@ app.use(express.static(__dirname + '/public'));
 				res.status(500).send(err);
 			} else {
 				console.log(posts);
+				db.Post.findOne({}).populate('author').exec(function (err, foundPost) {
+					console.log(foundPost.author);
+				});
 				res.json(posts);
 			}; 
 		});
 	});
 
-	//old MONGO DB ROUTE
+	//old MONGO DB route
 	// app.get('/api/posts', function (req, res) {
 	// 	Post.find({}, function (err, posts) {
 	// 		if(err) {
@@ -53,16 +57,30 @@ app.use(express.static(__dirname + '/public'));
 	// });
 
 	//respond to $.post request from client
-	//create a new post with info from form
+	//create a new author and new post with info from form
 	app.post('/api/posts', function (req, res) {
-		newNote = new Post ({
-			title: req.body.title,
-			content: req.body.content
-		});
-		newNote.save(function (err, savedNote) {
-			res.json(savedNote);
-		});
+		//create a new author
+		var author = new db.Author({name: req.body.author});
+		author1.save();
+		//create a new post that references the author
+		var post = new db.Post({title: req.body.title, content: req.body.content});
+		post.author.push(author._id);
+
+		post.save();
+		res.json(post);
 	});
+
+
+	//old MONGO DB route
+	// app.post('/api/posts', function (req, res) {
+	// 	newNote = new Post ({
+	// 		title: req.body.title,
+	// 		content: req.body.content
+	// 	});
+	// 	newNote.save(function (err, savedNote) {
+	// 		res.json(savedNote);
+	// 	});
+	// });
 
 	//get one post by the specific id 
 	app.get('/api/posts/:id', function (req, res) {
