@@ -3,14 +3,17 @@ var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     _ = require("underscore");
+
+//require mongoose and connect to our database
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/microblog');
 
 // tell app to use bodyParser middleware
 app.use(bodyParser.urlencoded({extended: true}));
 
-//connect to postModel
-var Post = require('./models/postModel');
+//connect to models for posts, comments, authors
+var db = require('./models/models');
+
 
 // get js and css files from public folder
 app.use(express.static(__dirname + '/public'));
@@ -22,14 +25,32 @@ app.use(express.static(__dirname + '/public'));
 	  res.sendFile(__dirname + '/views/index.html');
 	});
 
-//MONGO DB ROUTES
+//MONGO DB ROUTES -- Relationship Refactoring
 	//respond to $.get request from client
 	//get all phrases from database using .find function
 	app.get('/api/posts', function (req, res) {
-		Post.find(function (err, posts) {
-		res.json(posts);
+		db.Post.find(function (err, posts) {
+			if(err) {
+				console.log("error: ", err);
+				res.status(500).send(err);
+			} else {
+				console.log(posts);
+				res.json(posts);
+			}; 
 		});
 	});
+
+	//old MONGO DB ROUTE
+	// app.get('/api/posts', function (req, res) {
+	// 	Post.find({}, function (err, posts) {
+	// 		if(err) {
+	// 			console.log("error: ", err);
+	// 			res.status(500).send(err);
+	// 		} else {
+	// 			res.json(posts);
+	// 		};
+	// 	});
+	// });
 
 	//respond to $.post request from client
 	//create a new post with info from form
@@ -48,10 +69,14 @@ app.use(express.static(__dirname + '/public'));
 
 		//set the value of the id
 		var targetId = req.params.id;
-		console.log("targetId: " + targetId);
 		//find correct post in the db by id
 		Post.findOne({_id: targetId}, function (err, foundNote) {
-			res.json(foundNote);
+			if (err) {
+				console.log("error: ", err);
+				res.status(500).send(err);
+			} else {
+				res.json(foundNote);
+			}
 		});
 	});
 
@@ -67,7 +92,12 @@ app.use(express.static(__dirname + '/public'));
 			foundPost.content = req.body.content;
 
 			foundPost.save (function (err, savedPost) {
-				res.json(savedPost);
+				if (err) {
+					console.log("error: ", err);
+					res.status(500).send(err);
+				} else {
+					res.json(savedPost);
+				};
 			});
 		});
 	});

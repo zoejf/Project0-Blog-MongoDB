@@ -30,15 +30,6 @@ $(function() {
      });
    };
 
-  // var notesArray = [];
-  //   function findAll() {
-  //     $.get('/api/posts', function(data) {
-  //         var allNotes = data
-  //         _.each(allNotes, function(note) {
-  //           notesArray.push(note);
-  //         });
-  //     });
-  //   };
 
    //create new post and render to the page 
    function create (post_title, post_content) {
@@ -85,15 +76,6 @@ $(function() {
     };
     //END OF DECLARING FUNCTIONS
 
-  //upon page load:
-  // //if Posts database is empty, display 'be the first to post' message
-  // findAll();
-  // console.log(notesArray);
-  // if (notesArray.length === 0) {
-  //   $("#welcome").removeClass("display");
-  // } else {
-    //otherwise call 'all' function and render posts to the page
-    // $("#welcome").addClass("display");
     all();
  
   
