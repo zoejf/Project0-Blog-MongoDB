@@ -1,37 +1,28 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-var PostSchema = new Schema ({
-	title: {type: String, default: ""}, 
-	content: {type: String, default: ""},
-	author: [{
+var commentSchema = new Schema ({
+	text: String
+});
+
+var authorSchema = new Schema ({
+	name: String
+});
+
+var postSchema = new Schema ({
+	title: String, 
+	content: String,
+	author: {
 		type: Schema.Types.ObjectId,  //referencing the author
-		ref: "Author"
-	}], 
-	comments: [{
-		type: Schema.Types.ObjectId,  //referencing the comments
-		ref: "Comment"
-	}]  
+		ref: "author"
+	}, 
+	comments: [commentSchema]  //embedded list of comments
 });
 
 
-var CommentSchema = newSchema ({
-	text: {
-		type: String,
-		default: ""
-	}
-});
-
-var AuthorSchema = new Schema ({
-	name: {
-		type: String, 
-		default: ""
-	}
-});
-
-var Post = mongoose.model('post', PostSchema);
-var Comment = mongoose.model('comment', CommentSchema);
-var Author = mongoose.model('author', AuthorSchema);
+var Post = mongoose.model('post', postSchema);
+var Comment = mongoose.model('comment', commentSchema);
+var Author = mongoose.model('author', authorSchema);
 
 
 module.exports.Post = Post;

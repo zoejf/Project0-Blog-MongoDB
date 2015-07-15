@@ -27,6 +27,7 @@ app.use(express.static(__dirname + '/public'));
 
 //MONGO DB ROUTES -- Relationship Refactoring
 
+	//GOAL 1: update old routes to accommodate new author format
 	//respond to $.get request from client
 	//get all phrases from database using .find function
 	app.get('/api/posts', function (req, res) {
@@ -44,43 +45,23 @@ app.use(express.static(__dirname + '/public'));
 		});
 	});
 
-	//old MONGO DB route
-	// app.get('/api/posts', function (req, res) {
-	// 	Post.find({}, function (err, posts) {
-	// 		if(err) {
-	// 			console.log("error: ", err);
-	// 			res.status(500).send(err);
-	// 		} else {
-	// 			res.json(posts);
-	// 		};
-	// 	});
-	// });
-
 	//respond to $.post request from client
 	//create a new author and new post with info from form
 	app.post('/api/posts', function (req, res) {
 		//create a new author
-		var author = new db.Author({name: req.body.author});
-		author1.save();
+		var newAuthor = new db.Author({name: req.body.author});
+		newAuthor.save();
+		console.log("author: ", newAuthor);
 		//create a new post that references the author
 		var post = new db.Post({title: req.body.title, content: req.body.content});
-		post.author.push(author._id);
+		console.log("post: ", post);
+		post.author = newAuthor._id;
 
 		post.save();
+		console.log("updated post: ", post);
 		res.json(post);
 	});
 
-
-	//old MONGO DB route
-	// app.post('/api/posts', function (req, res) {
-	// 	newNote = new Post ({
-	// 		title: req.body.title,
-	// 		content: req.body.content
-	// 	});
-	// 	newNote.save(function (err, savedNote) {
-	// 		res.json(savedNote);
-	// 	});
-	// });
 
 	//get one post by the specific id 
 	app.get('/api/posts/:id', function (req, res) {
@@ -95,6 +76,31 @@ app.use(express.static(__dirname + '/public'));
 			} else {
 				res.json(foundNote);
 			}
+		});
+	});
+
+
+	//GOAL 2: Add basic routes for making and reading embedded comments
+	//read the comments on one specific post
+	app.get('/api/posts/:postid/comments', function (req, res) {
+		var targetId = req.params.id;
+		db.Post.findOne({_id: targetId}, function (err, foundPost) {
+				res.json(foundPost.comments);
+			}); 
+	});
+
+	//create a new comment on a specific blog post
+	app.post('/api/posts/:postid/comments', function (req, res) {
+		//create a new comment
+		var comment = new db.Comment({text: req.params.comment});
+
+		//query the database to find the post indicated by id
+		var targetId = req.params.id;
+		db.Post.findOne({_id: targetId}, function (err, foundPost) {
+			//push the new comment to the embedded list of comments
+			foundPost.comments.push(comment);
+			foundPost.save();
+			res.json(foundPost);
 		});
 	});
 
