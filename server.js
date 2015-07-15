@@ -83,24 +83,32 @@ app.use(express.static(__dirname + '/public'));
 	//GOAL 2: Add basic routes for making and reading embedded comments
 	//read the comments on one specific post
 	app.get('/api/posts/:postid/comments', function (req, res) {
-		var targetId = req.params.id;
+		var targetId = req.params.postid;
+		console.log("targetId: ", targetId);
 		db.Post.findOne({_id: targetId}, function (err, foundPost) {
+				console.log("foundPost: ", foundPost);
 				res.json(foundPost.comments);
 			}); 
 	});
 
 	//create a new comment on a specific blog post
 	app.post('/api/posts/:postid/comments', function (req, res) {
-		//create a new comment
-		var comment = new db.Comment({text: req.params.comment});
+		
+		//WHY DOESN'T THIS ONE WORK?!! 
+		//req.params.comment is undefined; new comment with id and no body gets added to array
 
 		//query the database to find the post indicated by id
-		var targetId = req.params.id;
+		var targetId = req.params.postid;
 		db.Post.findOne({_id: targetId}, function (err, foundPost) {
+			
+			//create a new comment
+			var newComment = new db.Comment({text: req.params.text});
+			console.log("params.comment: ", req.params.text);
+
 			//push the new comment to the embedded list of comments
-			foundPost.comments.push(comment);
+			foundPost.comments.push(newComment);
 			foundPost.save();
-			res.json(foundPost);
+			res.json(newComment);
 		});
 	});
 
